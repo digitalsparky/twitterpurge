@@ -19,12 +19,16 @@ checksum:
   name_template: 'checksums.txt'
 snapshot:
   name_template: "{{ incpatch .Version }}-next"
+ldflags:
+  - -s -w -X main.Version={{.Version}}
 changelog:
   sort: asc
   filters:
     exclude:
       - '^docs:'
       - '^test:'
+hooks:
+  post: bash ./upx.sh
 
 # modelines, feel free to remove those if you don't want/use them:
 # yaml-language-server: $schema=https://goreleaser.com/static/schema.json

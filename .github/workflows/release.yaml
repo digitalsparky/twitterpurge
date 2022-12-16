@@ -1,33 +1,36 @@
-# .github/workflows/release.yaml
+name: goreleaser
 
 on:
-  release:
-    types: [created]
+  push:
+    tags:
+      - '*'
 
 jobs:
-  releases-matrix:
-    name: Release Go Binary
+  goreleaser:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        # build and publish in parallel: linux/386, linux/amd64, linux/arm64, windows/386, windows/amd64, darwin/amd64, darwin/arm64
-        goos: [linux, windows, darwin, freebsd]
-        goarch: ["386", amd64, arm64]
-        exclude:
-          - goarch: "386"
-            goos: darwin
-          - goarch: arm64
-            goos: windows
     steps:
-    - uses: actions/checkout@v3
-    - uses: wangyoucao577/go-release-action@v1.34
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        goos: ${{ matrix.goos }}
-        goarch: ${{ matrix.goarch }}
-        goversion: "latest"
-        project_path: "/cmd/purge"
-        executable_compression: "upx -qq --brute"
-        ldflags: "-s -w -X main.Version=${{ matrix.release_tag }}"
-        binary_name: "purge"
-        extra_files: LICENSE README.md
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      -
+        name: Set up Go
+        uses: actions/setup-go@v3
+      -
+        name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v4
+        with:
+          distribution: goreleaser
+          version: latest
+          args: release --rm-dist
+          workdir: twitterpurge
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      -
+        name: Upload assets
+        uses: actions/upload-artifact@v3
+        with:
+          name: twitterpurge
+          path: twitterpurge/dist/*

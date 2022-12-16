@@ -8,6 +8,8 @@ builds:
       - linux
       - windows
       - darwin
+  hooks:
+    post: bash ./upx.sh
 archives:
   - replacements:
       darwin: Darwin
@@ -27,8 +29,7 @@ changelog:
     exclude:
       - '^docs:'
       - '^test:'
-hooks:
-  post: bash ./upx.sh
+
 
 # modelines, feel free to remove those if you don't want/use them:
 # yaml-language-server: $schema=https://goreleaser.com/static/schema.json

@@ -35,5 +35,5 @@ jobs:
         name: Upload assets
         uses: actions/upload-artifact@v3
         with:
-          name: cmd/purge
+          name: twitterpurge
           path: ./dist/*

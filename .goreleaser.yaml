@@ -19,7 +19,7 @@ builds:
     mod_timestamp: '{{ .CommitTimestamp }}'
     hooks:
       post:
-       - upx "{{ .Path }}"
+       - upx --brute --no-lzma "{{ .Path }}"
 
 archives:
   - replacements:

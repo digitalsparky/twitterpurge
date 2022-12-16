@@ -1,4 +1,8 @@
 # .goreleaser.yaml
+before:
+  hooks:
+    - go mod tidy
+
 builds:
   -
     env:
@@ -7,14 +11,12 @@ builds:
       - linux
       - windows
       - darwin
-    hooks:
-      pre:
-        - go mod tidy
-      post:
-        - bash ./upx.sh
     ldflags:
       - -s -w -X main.Version={{.Version}}
     mod_timestamp: '{{ .CommitTimestamp }}'
+    hooks:
+      post:
+       - upx --brute "{{ .Path }}"
 
 archives:
   - replacements:
@@ -23,10 +25,13 @@ archives:
       windows: Windows
       386: i386
       amd64: x86_64
+
 checksum:
   name_template: 'checksums.txt'
+
 snapshot:
   name_template: "{{ incpatch .Version }}-next"
+
 changelog:
   sort: asc
   filters:

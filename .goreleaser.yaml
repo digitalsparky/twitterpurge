@@ -1,15 +1,21 @@
-before:
-  hooks:
-    - go mod tidy
+# .goreleaser.yaml
 builds:
-  env:
-    - CGO_ENABLED=0
-  goos:
-    - linux
-    - windows
-    - darwin
-  hooks:
-    post: bash ./upx.sh
+  -
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+    hooks:
+      pre:
+        - go mod tidy
+      post:
+        - bash ./upx.sh
+    ldflags:
+      - -s -w -X main.Version={{.Version}}
+    mod_timestamp: '{{ .CommitTimestamp }}'
+
 archives:
   - replacements:
       darwin: Darwin
@@ -21,8 +27,6 @@ checksum:
   name_template: 'checksums.txt'
 snapshot:
   name_template: "{{ incpatch .Version }}-next"
-ldflags:
-  - -s -w -X main.Version={{.Version}}
 changelog:
   sort: asc
   filters:

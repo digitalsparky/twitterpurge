@@ -24,7 +24,7 @@ jobs:
           distribution: goreleaser
           version: latest
           args: release --rm-dist
-          workdir: twitterpurge
+          workdir: .
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -32,5 +32,5 @@ jobs:
         name: Upload assets
         uses: actions/upload-artifact@v3
         with:
-          name: twitterpurge
-          path: twitterpurge/dist/*
+          name: purge
+          path: ./dist/*

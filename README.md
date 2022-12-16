@@ -10,6 +10,7 @@ This program deletes all tweets from a users twitter account.
 #### Configuration
 
 *Get API Credentials*
+
 - Go to https://developer.twitter.com/
 - Go to 'developer portal'
 - Add app
@@ -18,6 +19,7 @@ This program deletes all tweets from a users twitter account.
 - Fetch your API and consumer keys
 
 *Copy & update config*
+
 Copy .env_example file to .env and update with the relevant API details from the previous step.
 
 ### Build from source

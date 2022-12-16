@@ -31,5 +31,5 @@ go mod tidy
 
 #### Run the purge (you may need to run this multiple times)
 ```
-go build cmd/purge.go
+go build twitterpurge.go
 ```

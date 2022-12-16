@@ -17,9 +17,9 @@ builds:
     ldflags:
       - -s -w -X main.Version={{.Version}}
     mod_timestamp: '{{ .CommitTimestamp }}'
-    hooks:
-      post:
-       - upx --brute --no-lzma "{{ .Path }}"
+    # hooks:
+    #   post:
+    #    - upx --brute --no-lzma "{{ .Path }}"
 
 archives:
   - replacements:
